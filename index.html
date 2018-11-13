@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tick 'em off</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/images/icon.jpg" />
+  <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyB1MM2_LajqYdJR3MDLOEVl7EkNAl_SuK8",
+      authDomain: "todo-74604.firebaseapp.com",
+      databaseURL: "https://todo-74604.firebaseio.com/",
+      projectId: "todo-74604",
+      storageBucket: "todo-74604.appspot.com",
+      messagingSenderId: "692273345951"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+  </script>
+  <link rel="stylesheet" type="text/css" href="/styles/themes/common.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+    <header class="header">
+      <table width="100%">
+        <tr>
+          <td width="5%" id="pullMenuTd" class="hide">
+              <button id="pullMenu" class="headerButton" aria-label="pull"></button>
+          </td>
+          <td width = "85%" id="headerTitleTd">
+              <h1 class="headerTitle">Tick 'em off To-Do Lists</h1>
+          </td>
+          <td width="5%" id="themeTd" class="hide">
+              <input type="hidden" id="themeVal" value="1"/>
+              <button id="themeBox" class="headerButton" aria-label="theme"></button>
+              <button id="themeColumn" class="hide" aria-label="theme"></button>
+          </td>
+          <td width="5%" id="profielTd" class="hide">
+              <button id="profile" class="headerButton" aria-label="profile"></button>
+          </td>
+        </tr>
+      </table>
+      
+    </header>
+
+    <div class="pageDiv">
+    <div class="main" id="main" height="80%">
+    </div>
+
+    <div class="loader" id="loader" >
+      <!--<svg viewBox="0 0 32 32" width="32" height="32">
+        <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+      </svg>-->
+      <img src="/images/refresh.gif" height="15px" width="15px">
+    </div>
+
+    <div id="allTodosDiv" class="hide" style="padding:10px" height="80%"> 
+      <table id="allTodos" width="100%" cellspacing="5px" cellpadding="5px">
+
+      </table>
+    </div>
+
+    <div id="footer" class="hide" >
+        <input type="text" placeholder="Add a To-Do list" id="newTodoTitle"/>
+        <button id="plus"></button>
+    </div>
+    </div>
+    <script src="scripts/todo.js"></script>
+    <script src="scripts/common.js"></script>
+</body>
+</html>
