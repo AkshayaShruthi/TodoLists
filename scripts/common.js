@@ -19,6 +19,6 @@
         request.send();
     }
 
-    function checkChange(id){
-
+    function destroyListener(ref, listener) {
+        //ref.removeListener(listener);
     }

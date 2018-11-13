@@ -1,20 +1,28 @@
 var cacheName = 'ToDo-1.3';
 var dataCacheName = 'ToDo-userData-1';
 var filesToCache = [
-    '/',
-    '/index.html',
-    '/images/icon.jpg',
+    '/images/checkBox.png',
+    '/images/checkedBox.png',
+    '/images/delete.jpg',
+    '/images/home.png',
+    '/images/icon.png',
     '/images/leftPull.png',
+    '/images/plus.png',
     '/images/profile.png',
     '/images/refresh.png',
+    '/images/tick.png',
     '/images/tilesTheme.png',
+    '/images/trashbin.jpg',
+    '/',
+    '/index.html',
+    '/scripts/common.js',
+    '/scripts/mainpage.js',
     '/scripts/todo.js',
     '/styles/themes/common.css',
     '/shell/login.html',
     '/home.html',
     '/shell/noTodos.html',
-    '/scripts/common.js',
-    '/scripts/mainpage.js'
+    
   ];
 
 self.addEventListener('install', function(e) {

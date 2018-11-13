@@ -67,7 +67,7 @@
         var password = document.getElementById("password").value;
         if (validateLogin()) {
             var ref = database.ref("Users/");
-            ref.orderByChild("Email").equalTo(email).on("value", function (snapshot) {
+            var listener = ref.orderByChild("Email").equalTo(email).on("value", function (snapshot) {
                 var val = snapshot.val();
                 if (val) {
                     for (var key in val) {
@@ -76,14 +76,16 @@
                             app.name = val[key].Name;
                             app.email = email;
                             loginSuccess();
-
+                            destroyListener(ref.orderByChild("Email").equalTo(email), listener);
                         } else {
                             loginFailure();
+                            destroyListener(ref.orderByChild("Email").equalTo(email), listener);
                         }
                         return;
                     }
                 } else {
                     alert("Account not found");
+                    destroyListener(ref.orderByChild("Email").equalTo(email), listener);
                 }
             });
         } else {
@@ -161,9 +163,9 @@
         document.getElementById("pullMenuTd").className = "hide";
         document.getElementById("pullMenuTd").addEventListener('click', redirectBackToHomePage);
         document.getElementById("themeTd").className = "";
-        document.getElementById("themeTd").addEventListener('click', switchTheme());
+        document.getElementById("themeTd").addEventListener('click', switchTheme);
         document.getElementById("profielTd").className = "";
-        document.getElementById("profielTd").addEventListener('click', showUserProfile());
+        document.getElementById("profielTd").addEventListener('click', showUserProfile);
     }
 
     function switchTheme() {
@@ -176,7 +178,7 @@
 
     function fetchToDosIds() {
         var ref = database.ref("UserTodo/");
-        ref.orderByChild("User").equalTo(app.userId).on("value", function (snapshot) {
+        var listener = ref.orderByChild("User").equalTo(app.userId).on("value", function (snapshot) {
             var val = snapshot.val();
             if (val) {
                 var todoIds = [];
@@ -186,10 +188,10 @@
                     todoIds.push(todoID);
                 }
                 showTodos(todoIds);
-
             } else {
                 showNoTodos();
             }
+            destroyListener(ref.orderByChild("User").equalTo(app.userId), listener);
         });
 
     }
@@ -214,7 +216,7 @@
 
     function showTodo(template, todoId, count) {
         var ref = database.ref("Todo/" + todoId);
-        ref.on("value", function (snapshot) {
+        var listener = ref.on("value", function (snapshot) {
             var val = snapshot.val();
             if (val) {
                 if (template == 1) {
@@ -223,6 +225,7 @@
             } else {
                 //alert("Something went wrong");
             }
+            destroyListener(ref,listener);
         });
     }
 
@@ -329,7 +332,7 @@
     }
 
     function deleteTodo(toDoId) {
-        database.ref("/UserTodo").orderByChild("Todo").equalTo(toDoId).on('value', function (snapshot) {
+        var listener = database.ref("/UserTodo").orderByChild("Todo").equalTo(toDoId).on('value', function (snapshot) {
             var val = snapshot.val();
             if (val) {
                 for (var key in val) {
@@ -337,7 +340,7 @@
                     return;
                 }
             }
-
+            destroyListener(database.ref("/UserTodo").orderByChild("Todo").equalTo(toDoId),listener);
         })
         database.ref("/Todo/" + toDoId).remove();
         document.getElementById("Todo" + toDoId).remove();
@@ -413,13 +416,15 @@
 
     function updateItem(todoId, itemKey, id) {
         var text = document.getElementById(id).value;
-        if (text) {
+        if (text && text.trim()!="") {
             var ref = database.ref("Todo/" + todoId + "/Items/" + itemKey);
             ref.update({
                 Text: text
             })
         } else {
-            var ref = database.ref("Todo/" + todoId + "/Items/" + itemKey).remove();
+            console.log("todo"+todoId);
+            console.log("itme"+itemKey);
+            deleteItem(todoId,itemKey);
         }
     }
 
@@ -427,7 +432,6 @@
         var checked = document.getElementById(id).checked;
         id = id.replace("check", "");
         var ref = database.ref("Todo/" + todoId + "/Items/" + itemKey);
-        console.log("Todo/" + todoId + "/Items/" + itemKey);
         ref.update({
             Done: checked
         })
